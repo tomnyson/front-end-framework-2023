@@ -87,7 +87,7 @@ function App() {
   };
   return (
     <div className="wrapper">
-      <div className="wrapper_inner">
+      {/* <div className="wrapper_inner">
         <img src={avatar} alt="avatar" width={150} height={150} />
         <br />
         <input
@@ -99,8 +99,8 @@ function App() {
         />
         <button onClick={handleChange} type="button">
           change
-        </button>
-        {/* <Profile
+        </button> */}
+      {/* <Profile
           nganh={nganhName}
           ten="Lê Hồng Sơn"
           email="tabletkindfire@gmail.com"
@@ -110,7 +110,7 @@ function App() {
           ten="Lê Hồng Sơn"
           email="tabletkindfire@gmail.com"
         /> */}
-      </div>
+      {/* </div> */}
       <Posts />
     </div>
   );
