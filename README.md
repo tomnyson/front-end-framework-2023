@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+## props vs state
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+As a recap, here is a summary of the main differences between props and state:
 
-## Available Scripts
+- We use props to pass data to components.
+- Components use state to manage their data.
+- Props are read-only and cannot be modified.
+- State can be modified by its component using the setState() method.
+- The setState() method results in re-rendering the component affected.
 
-In the project directory, you can run:
+## Lifecycle Methods
 
-### `npm start`
+React provides special lifecycle methods for class components, which are called when components are mounted, updated or unmounted.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Mounting is the process when a component is rendered on the page.
+Unmounting is the process when a component is removed from the page.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The componentDidMount method is called when a component is rendered on the page.
 
-### `npm test`
+For example, we can use componentDidMount in our Counter app to set the initial value of the counter:
+componentDidMount() {
+this.setState({counter: 42});
+}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### componentDidUpdate
 
-### `npm run build`
+Another lifecycle method is componentDidUpdate(), which is called when a component is updated in the DOM.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+We can, for example, alert the current counter value when it is incremented:
+componentDidUpdate() {
+alert("Number of clicks: " + this.state.counter);
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## The useEffect Hook
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The lifecycle methods we covered are only available for class components.
+However, React provides a special Hook called useEffect to make lifecycle methods available in functional components. It combines the componentDidMount, componentDidUpdate, and componentWillUnmount methods into one.
 
-### `npm run eject`
+For example, we can achieve the behavior of our last example using a functional Counter component:
+function Counter() {
+const [counter, setCounter] = useState(0);
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+useEffect(() => {
+alert("Number of clicks: " + counter);
+});
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+function increment() {
+setCounter(counter+1);
+}
+return <div>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  <p>{counter}</p>
+  <button onClick={increment}>Increment</button>
+  </div>;
+}
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+When you run the code, you'll notice that the alert dialog appears also during the first render. This is caused by the fact that, by default, useEffect runs both, after the first render and after every update.
 
-## Learn More
+To call the method only when something changes, we can provide it a second argument:
+useEffect(() => {
+//do something
+}, [count]);  
+JSX
+Now, the useEffect() method will run only if count changes.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To mimic componentWillUnmount, useEffect may return a function that cleans up after it:
+useEffect(() => {
+// do something
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+return () => {
+// cleanup
+};
+});
+JSX
+You can have multiple effects in the same component.
