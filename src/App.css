@@ -71,19 +71,6 @@
   }
 }
 
-.posts {
-  width: 500px;
-  justify-content: center;
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-}
-.post {
-  margin: 5px;
-  width: calc(100% * (1 / 4) - 10px - 1px);
-  display: flex;
-  flex-direction: column;
-}
 .post img {
   width: 250px;
 }

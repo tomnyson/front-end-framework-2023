@@ -73,3 +73,6 @@ return () => {
 });
 JSX
 You can have multiple effects in the same component.
+
+### install bootstrap
+```npm install react-bootstrap bootstrap```

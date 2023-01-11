@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import avatar from "./images/avatar.jpeg";
@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckSquare, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ProfileFunc from "./components/ProfileFunc";
 import Posts from "./Posts";
+import Form from "react-bootstrap/Form";
+import { callAPI } from "./services/api.js";
+import { Container, Button, Row, InputGroup } from "react-bootstrap";
 /**
  *  căn chính gữa
  * border màu xanh 2px
@@ -58,6 +61,8 @@ class Profile extends React.Component {
 
 function App() {
   const [nganhName, setNganhName] = useState("UDPM");
+  const [keyword, setKeyword] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     console.log("call comp");
@@ -66,27 +71,26 @@ function App() {
     };
   }, [nganhName]);
 
-  const handleChange = (event) => {
-    const data = document.getElementById("txtNganh").value;
-    setNganhName(data);
-  };
+  // const fetchAPI = useCallback(async () => {
+  //   console.log("fetching api from server");
+  //   const data = await callAPI(`/blogs/article?search=${keyword}`, "GET");
+  //   console.log("data", data);
+  // }, [keyword]);
 
   const handleOnChangeInput = (event) => {
-    console.log(event);
-    setNganhName(event.target.value);
+    setKeyword(event.target.value);
   };
-  const handleOnPress = (event) => {
-    /*
-      charCode 13
-      code"Enter"
-      */
-    if (event.charCode === 13) {
-      const data = document.getElementById("txtNganh").value;
-      setNganhName(data);
-    }
+
+  useEffect(() => {
+    fetchBlog();
+  }, []);
+
+  const fetchBlog = async () => {
+    const data = await callAPI(`/blogs/article?search=${keyword}`, "GET");
+    setData(data);
   };
   return (
-    <div className="wrapper">
+    <Container>
       {/* <div className="wrapper_inner">
         <img src={avatar} alt="avatar" width={150} height={150} />
         <br />
@@ -111,8 +115,20 @@ function App() {
           email="tabletkindfire@gmail.com"
         /> */}
       {/* </div> */}
-      <Posts />
-    </div>
+      <Row>
+        <div>
+          <InputGroup style={{ width: "50%" }} className="mb-2 mt-2">
+            <Form.Control
+              onChange={handleOnChangeInput}
+              type="text"
+              placeholder="what are you looking for?"
+            />
+            <Button>search</Button>
+          </InputGroup>
+        </div>
+        <Posts keyword={keyword} posts={data} />
+      </Row>
+    </Container>
   );
 }
 
