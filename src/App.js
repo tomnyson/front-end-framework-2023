@@ -83,7 +83,7 @@ function App() {
 
   useEffect(() => {
     fetchBlog();
-  }, []);
+  }, [keyword]);
 
   const fetchBlog = async () => {
     const data = await callAPI(`/blogs/article?search=${keyword}`, "GET");

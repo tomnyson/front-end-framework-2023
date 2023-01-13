@@ -1,12 +1,16 @@
 import { useCallback } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-
+import Spinner from "react-bootstrap/Spinner";
 const Posts = ({ posts, keyword }) => {
   const testData = useCallback(() => {
     console.log("Posts here", keyword);
   }, [keyword]);
   if (posts.length === 0) {
-    return <div className="loader"></div>;
+    return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    );
   }
   return (
     <Row>
