@@ -10,6 +10,8 @@ import Form from "react-bootstrap/Form";
 import { callAPI } from "./services/api.js";
 import { paginate } from "./utils/helper";
 import CreatePost from "./components/CreatePost";
+import Nav from "react-bootstrap/Nav";
+
 import {
   Container,
   Button,
@@ -17,6 +19,15 @@ import {
   InputGroup,
   Pagination,
 } from "react-bootstrap";
+
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+  Outlet,
+} from "react-router-dom";
+
 /**
  *  căn chính gữa
  * border màu xanh 2px
@@ -124,6 +135,7 @@ function App() {
     const updatePost = data.filter((post) => post.id !== id);
     setData(updatePost);
   };
+
   return (
     <Container>
       {/* <div className="wrapper_inner">
