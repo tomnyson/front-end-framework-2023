@@ -8,7 +8,15 @@ import ProfileFunc from "./components/ProfileFunc";
 import Posts from "./Posts";
 import Form from "react-bootstrap/Form";
 import { callAPI } from "./services/api.js";
-import { Container, Button, Row, InputGroup } from "react-bootstrap";
+import { paginate } from "./utils/helper";
+import CreatePost from "./components/CreatePost";
+import {
+  Container,
+  Button,
+  Row,
+  InputGroup,
+  Pagination,
+} from "react-bootstrap";
 /**
  *  căn chính gữa
  * border màu xanh 2px
@@ -61,9 +69,11 @@ class Profile extends React.Component {
 
 function App() {
   const [nganhName, setNganhName] = useState("UDPM");
+  const limit = 8;
+  const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState(null);
   const [data, setData] = useState([]);
-
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     console.log("call comp");
     return () => {
@@ -78,7 +88,9 @@ function App() {
   // }, [keyword]);
 
   const handleOnChangeInput = (event) => {
-    setKeyword(event.target.value);
+    setTimeout(() => {
+      setKeyword(event.target.value);
+    }, [3000]);
   };
 
   useEffect(() => {
@@ -86,8 +98,31 @@ function App() {
   }, [keyword]);
 
   const fetchBlog = async () => {
-    const data = await callAPI(`/blogs/article?search=${keyword}`, "GET");
+    const data = await callAPI(`/blogs/article?search=${keyword || ""}`, "GET");
     setData(data);
+  };
+  if (data.length > 0) {
+    console.log(paginate(data, limit, 5));
+  }
+
+  let items = [];
+  for (let number = 1; number <= Math.ceil(data.length / limit); number++) {
+    items.push(
+      <Pagination.Item
+        onClick={() => {
+          setPage(number);
+        }}
+        key={number}
+        active={number === page}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
+  const handleReload = (id) => {
+    console.log("id removed", id);
+    const updatePost = data.filter((post) => post.id !== id);
+    setData(updatePost);
   };
   return (
     <Container>
@@ -125,9 +160,18 @@ function App() {
             />
             <Button>search</Button>
           </InputGroup>
+          <Button onClick={() => setIsOpen(!isOpen)} variant="primary">
+            create post
+          </Button>
         </div>
-        <Posts keyword={keyword} posts={data} />
+        <Posts
+          keyword={keyword}
+          onReload={handleReload}
+          posts={paginate(data, limit, page)}
+        />
+        <Pagination>{items}</Pagination>
       </Row>
+      <CreatePost isShow={isOpen} handleClose={() => setIsOpen(false)} />
     </Container>
   );
 }

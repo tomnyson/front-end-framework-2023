@@ -1,7 +1,10 @@
 import { useCallback } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-const Posts = ({ posts, keyword }) => {
+import { BsArchive } from "react-icons/bs";
+import { callAPI } from "./services/api";
+
+const Posts = ({ posts, keyword, onReload }) => {
   const testData = useCallback(() => {
     console.log("Posts here", keyword);
   }, [keyword]);
@@ -21,9 +24,25 @@ const Posts = ({ posts, keyword }) => {
               src={post.picture || "https://via.placeholder.com/150"}
               alt=""
             />
-            <p style={{ fontWeight: "bold", marginBottom: 5 }}>{post.name}</p>
-            <p>{post.description}</p>
-            <Button onClick={testData}>click here</Button>
+            <div>
+              <BsArchive
+                onClick={async () => {
+                  const response = await callAPI(
+                    `/blogs/article/${post.id}`,
+                    "DELETE"
+                  );
+                  console.log(response);
+                  if (response) {
+                    alert("delete successfully");
+                    onReload(post.id);
+                  }
+                }}
+                style={{ cursor: "pointer" }}
+                color={"red"}
+              />
+              <p style={{ fontWeight: "bold", marginBottom: 5 }}>{post.name}</p>
+              <p>{post.description}</p>
+            </div>
           </Col>
         );
       })}

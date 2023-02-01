@@ -10,6 +10,15 @@ export const callAPI = async (path, method, data = {}) => {
         return response.data;
       }
     } else if (method === "POST") {
+      const response = await axios.post(domain + path, data);
+      if (response.status === 201) {
+        return response.data;
+      }
+    } else if (method === "DELETE") {
+      const response = await axios.delete(domain + path);
+      if (response.status === 200) {
+        return response.data;
+      }
     }
     return;
   } catch (error) {
