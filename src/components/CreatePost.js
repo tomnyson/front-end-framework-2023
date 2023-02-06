@@ -3,16 +3,20 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { callAPI } from "../services/api.js";
-const CreatePost = ({ isShow, handleClose }) => {
+const CreatePost = ({ isShow, handleClose, onReload }) => {
   const [post, setPost] = useState({});
   const OnchangeInput = (event) => {
     //todo: validation data
     setPost({ ...post, [event.target.name]: event.target.value });
   };
   const onHandelSubmit = async () => {
-    const data = await callAPI(`/blogs/article`, "POST", post);
+    const data = await callAPI(`/posts`, "POST", {
+      ...post,
+      createdAt: new Date(),
+    });
     if (data) {
       alert("thêm post thành công");
+      onReload({ type: "create", item: data });
     }
   };
   console.log("post", post);

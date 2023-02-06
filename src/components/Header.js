@@ -7,7 +7,12 @@ const Header = () => {
         Home
       </Link>
 
-      <Link to="/about">About</Link>
+      <Link to="/about" style={{ marginRight: 5 }}>
+        About
+      </Link>
+      <Link to="/login" style={{ marginRight: 5 }}>
+        Login
+      </Link>
     </Nav>
   );
 };

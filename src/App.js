@@ -109,7 +109,7 @@ function App() {
   }, [keyword]);
 
   const fetchBlog = async () => {
-    let url = "/posts";
+    let url = "/posts?_sort=createdAt&_order=desc";
     if (keyword) {
       url = `/posts?q=${keyword}`;
     }
@@ -134,10 +134,23 @@ function App() {
       </Pagination.Item>
     );
   }
-  const handleReload = (id) => {
-    console.log("id removed", id);
-    const updatePost = data.filter((post) => post.id !== id);
-    setData(updatePost);
+  const handleReload = ({ type, item }) => {
+    console.log("item", item);
+    switch (type) {
+      case "create":
+        const newData = [...data];
+        setData([item, ...newData]);
+        break;
+      case "update":
+        break;
+      case "delete":
+        break;
+      default:
+        new Error("not found type");
+    }
+    // console.log("id removed", id);
+    // const updatePost = data.filter((post) => post.id !== id);
+    // setData(updatePost);
   };
 
   return (
@@ -187,7 +200,11 @@ function App() {
         />
         <Pagination>{items}</Pagination>
       </Row>
-      <CreatePost isShow={isOpen} handleClose={() => setIsOpen(false)} />
+      <CreatePost
+        onReload={handleReload}
+        isShow={isOpen}
+        handleClose={() => setIsOpen(false)}
+      />
     </Container>
   );
 }
