@@ -109,7 +109,11 @@ function App() {
   }, [keyword]);
 
   const fetchBlog = async () => {
-    const data = await callAPI(`/blogs/article?search=${keyword || ""}`, "GET");
+    let url = "/posts";
+    if (keyword) {
+      url = `/posts?q=${keyword}`;
+    }
+    const data = await callAPI(url, "GET");
     setData(data);
   };
   if (data.length > 0) {

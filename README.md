@@ -76,3 +76,14 @@ You can have multiple effects in the same component.
 
 ### install bootstrap
 ```npm install react-bootstrap bootstrap```
+
+## cách bật server local
+#### b1: cài đặt
+```
+npm install -g json-server
+```
+#### b1: open terminal
+```
+cd database
+json-server --watch db.json
+```
