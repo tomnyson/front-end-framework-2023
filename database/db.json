@@ -1085,5 +1085,23 @@
       "createdAt": "2023-02-06T03:56:27.396Z",
       "id": "HYi7F8p"
     }
+  ],
+  "users": [
+    {
+      "createdAt": "2023-02-03T00:29:14.311Z",
+      "name": "tomnyson",
+      "email": "admin@gmail.com",
+      "username": "admin",
+      "passord": "123456",
+      "rotle": "admin"
+    },
+    {
+      "createdAt": "2023-02-03T00:29:14.311Z",
+      "name": "tomnyson",
+      "username": "user",
+      "email": "user@gmail.com",
+      "passord": "123456",
+      "rotle": "user"
+    }
   ]
 }
