@@ -1093,7 +1093,8 @@
       "email": "admin@gmail.com",
       "username": "admin",
       "passord": "123456",
-      "rotle": "admin"
+      "role": "admin",
+      "id": 1
     },
     {
       "createdAt": "2023-02-03T00:29:14.311Z",
@@ -1101,7 +1102,35 @@
       "username": "user",
       "email": "user@gmail.com",
       "passord": "123456",
-      "rotle": "user"
+      "role": "user",
+      "id": 2
+    },
+    {
+      "fullName": "admin",
+      "username": "admin1",
+      "email": "admin1@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "role": "user",
+      "id": 3
+    },
+    {
+      "fullName": "admin",
+      "username": "admin11",
+      "email": "admin11@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "role": "user",
+      "id": 4
+    },
+    {
+      "fullName": "admin",
+      "username": "admin111",
+      "email": "admin111@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "role": "user",
+      "id": 5
     }
   ]
 }
