@@ -87,3 +87,127 @@ npm install -g json-server
 cd database
 json-server --watch db.json
 ```
+```
+ import React, { createContext, useReducer } from 'react';
+
+  const CartContext = createContext();
+    const initialState = {
+    items: [],
+    total: 0
+  };
+
+  function cartReducer(state, action) {
+    switch (action.type) {
+      case 'ADD_ITEM':
+        return {
+          ...state,
+          items: [...state.items, action.payload],
+          total: state.total + action.payload.price
+        };
+      case 'REMOVE_ITEM':
+        return {
+          ...state,
+          items: state.items.filter(item => item.id !== action.payload.id),
+          total: state.total - action.payload.price
+        };
+      case 'CLEAR_CART':
+        return initialState;
+      default:
+        return state;
+    }
+  }
+Define a CartProvider component that uses the useReducer hook to create a cart state and dispatch function based on the cartReducer.
+javascript
+Copy code
+  function CartProvider(props) {
+    const [cartState, cartDispatch] = useReducer(cartReducer, initialState);
+
+    return (
+      <CartContext.Provider value={{ cartState, cartDispatch }}>
+        {props.children}
+      </CartContext.Provider>
+    );
+  }
+Use the CartProvider to wrap the components that need access to the cart state and dispatch functions.
+javascript
+Copy code
+  function App() {
+    return (
+      <CartProvider>
+        <Cart />
+      </CartProvider>
+    );
+  }
+In the child components, use the useContext hook to access the cart state and dispatch functions.
+javascript
+Copy code
+  import { useContext } from 'react';
+
+  function Cart() {
+    const { cartState, cartDispatch } = useContext(CartContext);
+
+    function handleRemove(item) {
+      cartDispatch({ type: 'REMOVE_ITEM', payload: item });
+    }
+
+    return (
+      <div>
+        <h2>Cart</h2>
+        <ul>
+          {cartState.items.map(item => (
+            <li key={item.id}>
+              {item.name} - {item.price}
+              <button onClick={() => handleRemove(item)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+        <p>Total: {cartState.total}</p>
+      </div>
+    );
+  }
+    function CartProvider(props) {
+    const [cartState, cartDispatch] = useReducer(cartReducer, initialState);
+
+    return (
+      <CartContext.Provider value={{ cartState, cartDispatch }}>
+        {props.children}
+      </CartContext.Provider>
+    );
+  }
+  function App() {
+    return (
+      <CartProvider>
+        <Cart />
+      </CartProvider>
+    );
+  }
+
+   import { useContext } from 'react';
+
+  function Cart() {
+    const { cartState, cartDispatch } = useContext(CartContext);
+
+    function handleRemove(item) {
+      cartDispatch({ type: 'REMOVE_ITEM', payload: item });
+    }
+
+    return (
+      <div>
+        <h2>Cart</h2>
+        <ul>
+          {cartState.items.map(item => (
+            <li key={item.id}>
+              {item.name} - {item.price}
+              <button onClick={() => handleRemove(item)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+        <p>Total: {cartState.total}</p>
+      </div>
+    );
+  }
+```
+
+
+
+

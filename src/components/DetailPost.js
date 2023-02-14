@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { callAPI } from "../services/api";
 import { useParams } from "react-router-dom";
 const PostDetail = (props) => {
@@ -38,6 +38,7 @@ const PostDetail = (props) => {
             <p style={{ fontWeight: "bold", marginBottom: 5 }}>{post.name}</p>
             <p>{post.description}</p>
           </div>
+          <Button>buy</Button>
         </Col>
       </Row>
     );

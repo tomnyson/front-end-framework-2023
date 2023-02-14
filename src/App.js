@@ -109,9 +109,9 @@ function App() {
   }, [keyword]);
 
   const fetchBlog = async () => {
-    let url = "/posts?_sort=createdAt&_order=desc";
+    let url = "/products?_sort=createdAt&_order=desc";
     if (keyword) {
-      url = `/posts?q=${keyword}`;
+      url = `/products?q=${keyword}`;
     }
     const data = await callAPI(url, "GET");
     setData(data);

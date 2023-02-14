@@ -7,7 +7,6 @@ import { ThemeContext } from "../context";
 const Header = ({ auth }) => {
   const navigate = useNavigate();
   const themValue = useContext(ThemeContext);
-  console.log("themValue", themValue);
   const renderLogout = () => {
     return (
       <div>

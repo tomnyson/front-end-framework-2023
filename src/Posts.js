@@ -1,13 +1,19 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { BsArchive } from "react-icons/bs";
 import { callAPI } from "./services/api";
 import { Link } from "react-router-dom";
+import { ACTION } from "./const";
+import { CartContext } from "./context";
 const Posts = ({ posts, keyword, onReload }) => {
   const testData = useCallback(() => {
     console.log("Posts here", keyword);
   }, [keyword]);
+
+  const { cartReducer: carts, cartDispatch: dispatch } =
+    useContext(CartContext);
+
   if (posts.length === 0) {
     return (
       <Spinner animation="border" role="status">
@@ -19,11 +25,14 @@ const Posts = ({ posts, keyword, onReload }) => {
     <Row>
       {posts.map((post) => {
         return (
-          <Col xs={12} md={3} key={post.id} className="post">
-            <img
-              src={post.picture || "https://via.placeholder.com/150"}
-              alt=""
-            />
+          <Col
+            xs={12}
+            md={3}
+            key={post.id}
+            style={{ marginBottom: 10 }}
+            className="post"
+          >
+            <img src={post.image || "https://via.placeholder.com/150"} alt="" />
             <div>
               <BsArchive
                 onClick={async () => {
@@ -44,6 +53,19 @@ const Posts = ({ posts, keyword, onReload }) => {
                 <Link to={`/post/${post.id}`}> {post.name}</Link>
               </p>
               <p>{post.description}</p>
+              <Button
+                onClick={() => {
+                  dispatch({
+                    type: ACTION.ADD_ITEM,
+                    payload: {
+                      item: post,
+                    },
+                  });
+                }}
+                style={{ width: 100 }}
+              >
+                BUY
+              </Button>
             </div>
           </Col>
         );
