@@ -58,7 +58,7 @@ const Posts = ({ posts, keyword, onReload }) => {
                   dispatch({
                     type: ACTION.ADD_ITEM,
                     payload: {
-                      item: post,
+                      item: { ...post, quantity: 1 },
                     },
                   });
                 }}

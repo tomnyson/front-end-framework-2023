@@ -5,44 +5,46 @@ import Header from "./components/Header";
 import { ThemeContext, CartContext } from "./context";
 import { ACTION } from "./const";
 const cartInit = {
-  items: [
-    {
-      name: "Direct Response Officer",
-      picture: "https://loremflickr.com/640/480/abstract",
-      id: "121",
-      price: 100,
-      quantity: 1,
-    },
-    {
-      name: "Corporate Data Planner",
-      picture: "https://loremflickr.com/640/480/people",
-      id: "126",
-      price: 200,
-      quantity: 5,
-    },
-  ],
+  items: [],
   sum: 0,
 };
 
 function reducer(state, action) {
-  console.log("action", action);
-  console.log("state", action.type);
-  console.log("action", action.type === ACTION.REMOVE_ITEM);
   switch (action.type) {
-    case ACTION.ADD_ITEM:
-      console.log("action", action);
+    case ACTION.ADD_ITEM: {
       const { item = {} } = action.payload;
+      const index = state.items.findIndex((cart) => cart.id === item.id);
+      if (index === -1) {
+        //them moi
+        return {
+          ...state,
+          items: [...state.items, item],
+        };
+      }
+      const newItems = [...state.items];
+      newItems[index] = {
+        ...newItems[index],
+        quantity: newItems[index].quantity + 1,
+      };
       return {
         ...state,
-        items: [...state.items, item],
+        items: newItems,
+        sum: newItems.reduce(
+          (accumulator, item) => accumulator + item.price * item.quantity,
+          0
+        ),
       };
+    }
     case ACTION.REMOVE_ITEM:
       const { id } = action.payload;
-      console.log("id", id);
-      console.log("ACTION.REMOVE_ITEM");
+      const items = state.items.filter((item) => item.id !== id);
       return {
         ...state,
-        items: state.items.filter((item) => item.id !== id),
+        items: items,
+        sum: items.reduce(
+          (accumulator, item) => accumulator + item.price * item.quantity,
+          0
+        ),
       };
     default:
       return state;

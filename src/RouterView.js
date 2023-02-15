@@ -5,12 +5,14 @@ import PostDetail from "./components/DetailPost";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Cart from "./components/Cart";
+import Checkout from "./components/Checkout";
+
 const RouteList = () => {
   let routes = useRoutes([
     { path: "/", element: <App /> },
-    { path: "/", element: <h1>about</h1> },
     { path: "/post/:id", element: <PostDetail /> },
     { path: "/cart", element: <Cart /> },
+    { path: "/checkout", element: <Checkout /> },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
   ]);

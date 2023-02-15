@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Container, Row, Col, Button, Table } from "react-bootstrap";
 import { CartContext } from "../context";
+import { useNavigate } from "react-router-dom";
 import { ACTION } from "../const";
 const Cart = () => {
   // const [cart, setCart] = useState([
@@ -11,8 +12,21 @@ const Cart = () => {
   console.log(ACTION.REMOVE_ITEM);
   const { cartReducer: carts, cartDispatch: dispatch } =
     useContext(CartContext);
-
-  console.log("carts", carts);
+  const navigate = useNavigate();
+  if (!carts?.items?.length) {
+    return (
+      <Row>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div>
+            <h5>data not found</h5>
+            <Button style={{ display: "block" }} onClick={() => navigate("/")}>
+              Continue Shopping
+            </Button>
+          </div>
+        </div>
+      </Row>
+    );
+  }
   return (
     <Container>
       <Row>
@@ -34,12 +48,12 @@ const Cart = () => {
                   <tr key={item.id}>
                     <td>
                       <img
-                        src={`${item.picture}`}
+                        src={`${item.image}`}
                         alt=""
                         style={{ width: 100 }}
                       />
                     </td>
-                    <td>{item.name}</td>
+                    <td>{item.title}</td>
                     <td>${item.price}</td>
                     <td>{item.quantity}</td>
                     <td>
@@ -60,6 +74,20 @@ const Cart = () => {
                   </tr>
                 ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td>
+                  SUM: <span>${carts.sum}</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Button onClick={() => navigate("/checkout")}>
+                    Checkout
+                  </Button>
+                </td>
+              </tr>
+            </tfoot>
           </Table>
         </Col>
       </Row>
