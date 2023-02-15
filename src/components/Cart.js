@@ -82,7 +82,17 @@ const Cart = () => {
               </tr>
               <tr>
                 <td>
-                  <Button onClick={() => navigate("/checkout")}>
+                  <Button
+                    onClick={() => {
+                      const isLogin = localStorage.getItem("user");
+                      if (!isLogin) {
+                        //user chua login
+                        navigate("/login");
+                        return;
+                      }
+                      navigate("/checkout");
+                    }}
+                  >
                     Checkout
                   </Button>
                 </td>

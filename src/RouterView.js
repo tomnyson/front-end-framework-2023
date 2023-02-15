@@ -6,13 +6,17 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
-
+import { Navigate } from "react-router-dom";
 const RouteList = () => {
+  const isAuth = localStorage.getItem("user");
   let routes = useRoutes([
     { path: "/", element: <App /> },
     { path: "/post/:id", element: <PostDetail /> },
     { path: "/cart", element: <Cart /> },
-    { path: "/checkout", element: <Checkout /> },
+    {
+      path: "/checkout",
+      element: isAuth ? <Checkout /> : <Navigate to="/login" />,
+    },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
   ]);
